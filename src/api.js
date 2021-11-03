@@ -99,8 +99,8 @@ export const api = {
     },
 
 
-    selectItem: async function (item, allItems, currentProfile) {
-        if (item.profile.id !== currentProfile.id) {
+    selectItem: async function (item, allItems, currentProfileId) {
+        if (item.profile.id !== currentProfileId) {
             const result = allItems.filter(it => it.name === item.name && it.profile.name === "current");
             if (result.length > 0) {
                 const storedItem = result[0];
@@ -109,13 +109,13 @@ export const api = {
             } else {
                 const newItem = { ...item };
                 delete newItem.id;
-                newItem.profile = {id: currentProfile.id}
+                newItem.profile = {id: currentProfileId}
                 return await api.addItem(newItem, allItems);
             }
         } else {
             return await api.deleteItem(item);
         }
-    },
+    }
 }
 
 const directus = new Directus('http://localhost:8055/');

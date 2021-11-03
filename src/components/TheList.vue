@@ -1,17 +1,22 @@
 <template>
   <base-card>
     <h1>{{ name }}</h1>
-    <div v-if="type === 'profile'">
+    <div v-if="profiles && profiles!='none' &&  profiles.length > 0">
       <select @change="$emit('update:activeProfileId', $event.target.value)">
-        <option v-for="prf in profiles" :value="prf.id" :key="prf.id" >
+        <option
+          v-for="prf in profiles"
+          :value="prf.id"
+          :key="prf.id"
+          :selected="prf.id === activeProfileId"
+        >
           {{ prf.name }}
         </option>
       </select>
-      <form @submit.prevent="submitNewProfile">
-              <button>Add new</button>
-              <input type="text" name="newprofile" size="8" v-model="newProfile">  
-      </form>
     </div>
+    <form v-if="profiles!=='none'" @submit.prevent="submitNewProfile">
+      <button>Add new</button>
+      <input type="text" name="newprofile" size="8" v-model="newProfile" />
+    </form>
     <ul>
       <li v-for="item in items" :key="item.id">
         <button @click.prevent="$emit('select-item', item)">
@@ -53,28 +58,26 @@
 
 <script>
 export default {
-  props: ["name", "type", "profile", "profiles", "items"],
+  props: ["name", "activeProfileId", "profiles", "items"],
   emits: [
     "select-item",
     "increase-item",
     "decrease-item",
     "new-item",
-    "change-profile",
     "new-profile",
-    "update:activeProfileId"
+    "update:activeProfileId",
   ],
   data() {
     return {
       newName: "",
       newQty: 1,
       newUnit: "",
-//      selected: this.profiles.length>0?this.profile.id:"current",
-      newProfile: ""
+      newProfile: "",
     };
   },
   computed: {
     action() {
-      return this.type === "profile" ? "Select" : "Remove";
+      return this.profiles !== [] ? "Select" : "Remove";
     },
   },
   methods: {
@@ -84,7 +87,7 @@ export default {
           name: this.newName,
           quantity: this.newQty,
           unit: this.newUnit,
-          profile: {id: this.profile.id}
+          profile: { id: this.activeProfileId },
         });
         this.newName = "";
         this.newQty = 1;
@@ -95,15 +98,15 @@ export default {
 
     submitNewProfile() {
       if (this.newProfile !== "") {
-        this.$emit("new-profile", this.newProfile)
+        this.$emit("new-profile", this.newProfile);
+        this.newProfile = "";
       }
-    }
+    },
   },
 
   mounted() {
-    if (this.type === "profile") {
+    if (this.profiles !== []) {
       this.$refs.inputname.focus();
-      this.selected = this.profile;
     }
   },
 
@@ -112,7 +115,6 @@ export default {
       this.$refs.inputname.focus();
       this.dataSubmitted = false;
     }
-    this.selected = this.profile;
   },
 };
 </script>

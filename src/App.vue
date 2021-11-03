@@ -1,30 +1,31 @@
 <template>
   <!--  <img class="icon" src="./assets/groceries.png"> -->
-  <TheSelect v-model="appSelection" :list="list">
-  </TheSelect>
-  <TheList
-    name="Saved Profile"
-    type="profile"
-    v-model.number:activeProfileId="activeProfileId"
-    :profiles="profilesList"
-    :items="activeProfileItems"
-    @select-item="selectItem"
-    @increase-item="increaseItem"
-    @decrease-item="decreaseItem"
-    @new-item="addItem"
-    @new-profile="newProfile"
-  />
-  <TheList
-    name="List for Today"
-    type="current"
-    :profiles="[]"
-    v-model:activeProfileId="currentProfileId"
-    :items="currentItems"
-    @select-item="selectItem"
-    @increase-item="increaseItem"
-    @decrease-item="decreaseItem"
-    @new-item="addItem"
-  />
+  <div v-if="initializing">
+    <h1>Loading your data</h1>
+  </div>
+  <div v-else>
+    <TheList
+      name="Saved Profile"
+      v-model:activeProfileId="activeProfileId"
+      :profiles="profilesList"
+      :items="activeProfileItems"
+      @select-item="selectItem"
+      @increase-item="increaseItem"
+      @decrease-item="decreaseItem"
+      @new-item="addItem"
+      @new-profile="newProfile"
+    />
+    <TheList
+      name="List for Today"
+      profiles="none"
+      v-model:activeProfileId="currentProfileId"
+      :items="currentItems"
+      @select-item="selectItem"
+      @increase-item="increaseItem"
+      @decrease-item="decreaseItem"
+      @new-item="addItem"
+    />
+  </div>
   <ul v-if="error">
     Something went wrong.
     <li v-for="err in errorMessages" :key="err.index">
@@ -36,14 +37,12 @@
 
 <script>
 import TheList from "./components/TheList.vue";
-import TheSelect from "./components/TheSelect.vue";
 import { api, directusApi, log } from "./api.js";
 
 export default {
   name: "App",
   components: {
     TheList,
-    TheSelect
   },
   data() {
     return {
@@ -53,18 +52,18 @@ export default {
       errorMessages: [],
       profiles: [],
       activeProfileId: "",
-      list: ["foo","bar","mega", "lollypop"],
-      appSelection: "bar"
+      initializing: true,
     };
   },
   computed: {
     //invariant should be that there is always a 'current' profile for a user
     currentProfileId() {
-      log(this.profiles);
-      const current = this.profiles.filter((profile) => profile.name === "current");
-      log(current);
-      return (current[0].id)
+      const current = this.profiles.filter(
+        (profile) => profile.name === "current"
+      );
+      return current.length > 0 ? current[0].id : 0;
     },
+
     profilesList() {
       return this.profiles.filter((profile) => profile.name !== "current");
     },
@@ -73,47 +72,31 @@ export default {
     },
     activeProfileItems() {
       return this.items.filter(
-        (item) => item.profile.id === this.activeProfileId
+        (item) => parseInt(item.profile.id) === parseInt(this.activeProfileId)
       );
     },
   },
 
   methods: {
-    appSelect(value) {
-      console.log(`appSelect called with value: ${value}`);
-//      console.log(`event.target.value: ${event.target.value}`);
-    },
-
-    select(event) {
-      console.log(event.target.value);
-      log(event);
-    },
-
     async newProfile(name) {
-      console.log('prior to newProfile');
+      log("newProfile called ");
       const result = await directusApi.newProfile(name);
-      console.log('after newProfile. Result is '+ JSON.stringify(result));
-      this.handleResult(await directusApi.getProfiles(), "getProfiles");
-      console.log('after getProfiles');
-//      this.handleResult(result, "newProfile");
-//      console.log('after handleResult of newProfile');
-      this.changeProfile(result.id);
+      log("newProfile result: ");
+      log(result);
+      this.profiles.push(result);
+      this.activeProfileId = result.id;
     },
 
-    changeProfile(id) {
-      const newActiveProfile = this.profilesList.filter(
-        (profile) => parseInt(profile.id) === parseInt(id)
-      )[0];
-      this.activeProfile = newActiveProfile;
-    },
     async getProfiles() {
       const result = await directusApi.getProfiles();
       this.handleResult(result, "getProfiles");
+      return result;
     },
 
     async getItems() {
       const result = await directusApi.getItems();
       this.handleResult(result, "getItems");
+      return result;
     },
 
     async addItem(item) {
@@ -135,7 +118,7 @@ export default {
       const result = await api.selectItem(
         item,
         this.items,
-        this.currentProfile
+        this.currentProfileId
       );
       this.handleResult(result, "selectItem");
     },
@@ -151,13 +134,13 @@ export default {
         this.error = false;
         this.errorMessages = [];
         if (caller === "getProfiles") {
-          this.profiles = result["data"];
+          this.profiles = result.data;
         }
         if (caller === "newProfile") {
-          this.activeProfile = result["data"];
+          this.activeProfile = result.data.id;
         }
         if (caller === "getItems") {
-          this.items = result["data"];
+          this.items = result.data;
         } else {
           this.getItems();
         }
@@ -165,9 +148,12 @@ export default {
     },
   },
 
-  async created() {
+  async beforeMount() {
     await Promise.all([this.getProfiles(), this.getItems()]);
-    this.activeProfileId = this.profilesList[0].id;
+    if (this.profilesList.length>0) {
+      this.activeProfileId = this.profilesList[0].id;
+    } 
+    this.initializing = false;
   },
 };
 </script>
