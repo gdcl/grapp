@@ -1,9 +1,10 @@
 <template>
   <!--  <img class="icon" src="./assets/groceries.png"> -->
   <div v-if="initializing">
-    <h1>Loading your data</h1>
+    <h3>Loading your data</h3>
   </div>
   <div v-else>
+    <h3> Here is the appName: {{ appName }} </h3>
     <TheList
       name="Saved Profile"
       v-model:activeProfileId="activeProfileId"
@@ -75,6 +76,10 @@ export default {
         (item) => parseInt(item.profile.id) === parseInt(this.activeProfileId)
       );
     },
+
+    appName() {
+      return process.env.VUE_APP_NAME;
+    }
   },
 
   methods: {
