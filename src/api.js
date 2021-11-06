@@ -8,7 +8,7 @@ export function log(object) {
   }
 }
 
-const endpoint = process.env.VUE_APP_DIRECTUS_API + "items/grocerty_items";
+const endpoint = process.env.VUE_APP_DIRECTUS_API + "items/grocery_items";
 
 export const api = {
   // Basic CRUD
