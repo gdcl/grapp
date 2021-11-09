@@ -5,7 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "test": "jest"
   },
   "dependencies": {
     "@directus/sdk": "^9.0.0-rc.99",
@@ -15,13 +16,17 @@
     "vue": "^3.0.0"
   },
   "devDependencies": {
+    "@types/jest": "^27.0.2",
+    "@types/sqlite3": "^3.1.7",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^7.0.0"
+    "eslint-plugin-vue": "^7.0.0",
+    "jest": "^27.3.1",
+    "sqlite3": "^5.0.2"
   },
   "eslintConfig": {
     "root": true,
