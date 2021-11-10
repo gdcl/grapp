@@ -3,9 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve-all": "npm run serve & npm run serve-directus --target=dev",
+    "serve-ui": "vue-cli-service serve",
+    "serve": "npm run serve-ui",
     "build": "vue-cli-service build",
+    "postbuild": "npm run test",
     "lint": "vue-cli-service lint",
+    "preinitdb": "rm -f backend/db/$npm_config_target.db",
+    "initdb": "sqlite3 < backend/db/001-schema.$npm_config_target.sql backend/db/$npm_config_target.db",
+    "serve-directus": "export CONFIG_PATH=/Users/guyduchatelet/Dev/frontend/vue/grapp/backend/directus/.env-$npm_config_target && directus start >> backend/directus/directus-$npm_config_target.log",
+    "reinit": "npm run initdb --target=$npm_config_target & npm run serve-directus --target=$npm_config_target",
+    "pretest": "npm run initdb --target=test & npm serve-directus --target=test &",
     "test": "jest"
   },
   "dependencies": {
@@ -13,6 +21,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/vue-fontawesome": "^3.0.0-5",
     "core-js": "^3.6.5",
+    "directus": "^9.0.0",
     "vue": "^3.0.0"
   },
   "devDependencies": {
