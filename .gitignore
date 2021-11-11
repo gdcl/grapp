@@ -28,3 +28,5 @@ backend/directus/*.log
 
 # test results
 coverage/*
+
+*.rest
