@@ -28,5 +28,8 @@ backend/directus/*.log
 
 # test results
 coverage/*
-
 *.rest
+
+# odds and ends
+.git-pat
+sqlite.js
