@@ -3,19 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "npm run serve-ui",
-    "build": "vue-cli-service build",
-    "test:unit": "vue-cli-service test:unit",
-    "lint": "vue-cli-service lint",
-    "initdb": "sqlite3 < backend/db/001-schema.$npm_config_target.sql backend/db/$npm_config_target.db",
-    "postbuild": "npm run test",
-    "preinitdb": "rm -f backend/db/$npm_config_target.db",
-    "pretest": "npm run initdb --target=test & npm run serve-directus --target=test &",
-    "reinit": "npm run initdb --target=$npm_config_target & npm run serve-directus --target=$npm_config_target",
-    "serve-all": "npm run serve & npm run serve-directus --target=dev",
+    "serve": "npm-run-all --parallel serve-ui serve-directus --target=dev",
     "serve-directus": "export CONFIG_PATH=/Users/guyduchatelet/Dev/frontend/vue/grapp/backend/directus/.env-$npm_config_target && directus start >> backend/directus/directus-$npm_config_target.log",
     "serve-ui": "vue-cli-service serve",
-    "test": "npm run test:unit"
+    "lint": "vue-cli-service lint",
+    "build": "vue-cli-service build",
+    "postbuild": "npm run test",
+    "pretest": "npm-run-all  initdb --target=test serve-directus --target=test &",
+    "test": "npm run test:unit -- --coverage",
+    "test:unit": "vue-cli-service test:unit",
+    "bootstrapdb": "sqlite3 < backend/db/001-schema.$npm_config_target.sql backend/db/$npm_config_target.db",
+    "cleardb": "sqlite3 < backend/db/clear-database.sql backend/db/$npm_config_target.db",
+    "initdb": "npm-run-all cleardb --target=$npm_config_target bootstrapdb --target=$npm_config_target"
   },
   "dependencies": {
     "@directus/sdk": "^9.0.0-rc.99",
@@ -38,6 +37,7 @@
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^7.0.0",
     "node-fetch": "^2.6.6",
+    "npm-run-all": "^4.1.5",
     "typescript": "~3.9.3",
     "vue-jest": "^5.0.0-alpha.10"
   },
