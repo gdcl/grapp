@@ -1,12 +1,17 @@
+/**
+ * @jest-environment node
+ */
 import { api, directusApi } from "../../src/api.js";
 import fetch from "node-fetch";
 
-let globals = {};
-globals.testItem = {
-  name: "jest_create_test",
-  profile: 2,
-  quantity: 15,
-  unit: "kg",
+let globals = {
+  testItem: {
+    name: "jest_create_test",
+    profile: 2,
+    quantity: 15,
+    unit: "kg",
+  },
+  createdItem: {},
 };
 
 beforeAll(() => {
@@ -17,7 +22,29 @@ afterAll(() => {
   console.log("afterAll");
 });
 
-describe("grapp API", () => {
+describe("directus API", () => {
+  it("always exist and is a non-null object", () => {
+    expect(directusApi).not.toBeNull();
+    expect(directusApi).toBeInstanceOf(Object);
+  });
+
+  it("can use getItems to get all 5 grocery items from the test-set", async () => {
+    const items = await directusApi.getItems();
+    expect(items).toHaveProperty("data");
+    expect(items.data.length).toBeGreaterThanOrEqual(5);
+    items.data.forEach((item, index) =>
+      expect(item).toEqual({
+        id: index + 1,
+        name: `name${index + 1}`,
+        profile: { id: 2, name: "jest" },
+        quantity: `quantity${index + 1}`,
+        unit: `unit${index + 1}`,
+      })
+    );
+  });
+});
+
+describe("read use cases: grapp API", () => {
   it("always exists and is a non null object", () => {
     expect(api).not.toBeNull();
     expect(api).toBeInstanceOf(Object);
@@ -28,12 +55,11 @@ describe("grapp API", () => {
     expect(api).toHaveProperty("updateItem");
     expect(api).toHaveProperty("deleteItem");
   });
-
   it("can use getItems toget all 5 grocery items from the test-set", async () => {
     const items = await api.getItems();
     console.log(items);
     expect(items).toHaveProperty("data");
-    expect(items.data).toHaveLength(5);
+    expect(items.data.length).toBeGreaterThanOrEqual(5);
     items.data.forEach((item, index) =>
       expect(item).toEqual({
         id: index + 1,
@@ -44,6 +70,7 @@ describe("grapp API", () => {
         unit: `unit${index + 1}`,
       })
     );
+    
   });
 
   it("can getItemById correctly", async () => {
@@ -60,28 +87,37 @@ describe("grapp API", () => {
       });
     }
   });
+});
 
-  it("can create a new item correctly", async () => {
+describe("create and update use cases: grapp API", () => {
+  beforeEach(async () => {
     const item = await api.createItem(globals.testItem);
-    globals.testItem.id = item.id;
     expect(item).toHaveProperty("data");
     expect(item.data).toBeInstanceOf(Object);
-    expect(item.data.name).toEqual(globals.testItem.name);
-    expect(item.data.profile).toEqual(globals.testItem.profile);
-    expect(item.data.quantity).toEqual(globals.testItem.quantity);
-    expect(item.data.unit).toEqual(globals.testItem.unit);
+    globals.createdItem = { ...item.data };
+  });
+
+  it("can create a new item correctly", async () => {
+    const item = { ...globals.createdItem };
+    expect(item.name).toEqual(globals.testItem.name);
+    expect(item.profile).toEqual(globals.testItem.profile);
+    expect(item.quantity).toEqual(globals.testItem.quantity);
+    expect(item.unit).toEqual(globals.testItem.unit);
+  });
+
+  it("can update a new item correctly", async () => {
+    let testItem = { ...globals.createdItem };
+    testItem.name = "newName";
+    testItem.unit = "newUnit";
+    testItem.quantity = 99;
+    const result = await api.updateItem(testItem);
+    expect(result).toHaveProperty("data");
+    expect(result.data).toEqual(testItem);
   });
 
   it("can delete an earlier created item correctly", async () => {
-    await api.deleteItem(globals.testItem);
-    const result = await api.getItemById(globals.testItem.id);
+    await api.deleteItem(globals.createdItem);
+    const result = await api.getItemById(globals.createdItem.id);
     expect(result).toHaveProperty("errors");
-  });
-});
-
-describe("directus API", () => {
-  it("always exist and is a non-null object", () => {
-    expect(directusApi).not.toBeNull();
-    expect(directusApi).toBeInstanceOf(Object);
   });
 });
