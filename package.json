@@ -21,7 +21,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/vue-fontawesome": "^3.0.0-5",
     "core-js": "^3.6.5",
-    "directus": "^9.0.0",
+    "directus": "^9.0.0-rc.97",
     "vue": "^3.0.0"
   },
   "devDependencies": {
