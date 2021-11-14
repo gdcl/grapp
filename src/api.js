@@ -63,12 +63,6 @@ export const api = {
 
   // Business logic
 
-  //deprecated
-  /*
-    addItemList: async function (item, list) {
-        return await api.addItem({ ...item, item_type: list });
-    }, */
-
   addItem: async function(item, allItems) {
     const result = allItems.filter(
       (it) => it.profile.id === item.profile.id && it.name === item.name
