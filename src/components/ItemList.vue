@@ -1,6 +1,7 @@
 <template>
   <base-card>
     <h1>{{ name }}</h1>
+    <!--#TODO #15 refactor profile selector into component common to both itemlists -->
     <div v-if="profiles && profiles!='none' &&  profiles.length > 0">
       <select @change="$emit('update:activeProfileId', $event.target.value)">
         <option
@@ -13,12 +14,15 @@
         </option>
       </select>
     </div>
+    <!-- #TODO #16 refactor profile creation as a component. 
+         Should it be composed inside of ItemList or also be a more common component -->
     <form v-if="profiles!=='none'" @submit.prevent="submitNewProfile">
       <button>Add new</button>
       <input type="text" name="newprofile" size="8" v-model="newProfile" />
     </form>
     <ul>
       <li v-for="item in items" :key="item.id">
+        <!-- #TODO #17 create individual item component -->
         <button @click.prevent="$emit('select-item', item)">
           {{ action }}
         </button>
@@ -28,6 +32,7 @@
         <span> {{ item.quantity }} </span>
         <span> {{ item.unit }} </span>
       </li>
+      <!-- #TODO should form be a separate component or not? Maybe if we want to use 3rd party form solution.  -->
       <form @submit.prevent="submitNewItem">
         <input
           type="text"

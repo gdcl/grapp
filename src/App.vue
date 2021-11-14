@@ -4,8 +4,8 @@
     <h3>Loading your data</h3>
   </div>
   <div v-else>
-    <h3> Here is the appName: {{ appName }} </h3>
-    <TheList
+    <h3> {{ appName }} </h3>
+    <ItemList
       name="Saved Profile"
       v-model:activeProfileId="activeProfileId"
       :profiles="profilesList"
@@ -16,7 +16,7 @@
       @new-item="addItem"
       @new-profile="newProfile"
     />
-    <TheList
+    <ItemList
       name="List for Today"
       profiles="none"
       v-model:activeProfileId="currentProfileId"
@@ -37,13 +37,13 @@
 </template>
 
 <script>
-import TheList from "./components/TheList.vue";
+import ItemList from "./components/ItemList.vue";
 import { api, directusApi, log } from "./api.js";
 
 export default {
   name: "App",
   components: {
-    TheList,
+    ItemList,
   },
   data() {
     return {
