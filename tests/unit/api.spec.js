@@ -50,10 +50,10 @@ describe("read use cases: grapp API", () => {
     expect(api).toBeInstanceOf(Object);
   });
   it("has CRUD operations for item", () => {
-    expect(api).toHaveProperty("getItemById");
     expect(api).toHaveProperty("createItem");
-    expect(api).toHaveProperty("updateItem");
     expect(api).toHaveProperty("deleteItem");
+    expect(api).toHaveProperty("getItemById");
+    expect(api).toHaveProperty("updateItem");
   });
   it("can use getItems toget all 5 grocery items from the test-set", async () => {
     const items = await api.getItems();
@@ -61,7 +61,7 @@ describe("read use cases: grapp API", () => {
     expect(items).toHaveProperty("data");
     expect(items.data.length).toBeGreaterThanOrEqual(5);
     items.data.forEach((item, index) =>
-      expect(item).toEqual({
+    expect(item).toEqual({
         id: index + 1,
         item_type: "dc",
         name: `name${index + 1}`,
