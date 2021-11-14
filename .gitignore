@@ -10,6 +10,8 @@ node_modules
 
 # dev and test db
 backend/db/*.db
+backend/directus/.env-research
+
 # Log files
 npm-debug.log*
 yarn-debug.log*
