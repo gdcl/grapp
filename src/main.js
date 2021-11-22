@@ -1,10 +1,9 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import BaseCard from './components/UI/BaseCard.vue';
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-
+import { createApp } from "vue";
+import App from "./App.vue";
+import BaseCard from "./components/UI/BaseCard.vue";
+import store from "./store/index.js";
 
 const app = createApp(App);
+app.use(store);
 app.component('base-card', BaseCard);
-app.component("font-awesome-icon", FontAwesomeIcon);
-app.mount('#app');
+app.mount("#app");
