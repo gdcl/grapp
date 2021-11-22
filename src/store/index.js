@@ -15,14 +15,14 @@ export const state = () => {
   };
 };
 
-export const debug = process.env.NODE_ENV !== 'production';
-const plugins= debug ? [createLogger({})] : [];
+export const debug = process.env.NODE_ENV === "development";
+const plugins = debug ? [createLogger({})] : [];
 
 export const storeConfig = {
   state: state,
   mutations: mutations,
   actions: actions,
   getters: getters,
-  plugins: plugins
+  plugins: plugins,
 };
 export default createStore(storeConfig);
