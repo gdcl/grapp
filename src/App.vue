@@ -3,11 +3,13 @@
   <div class="app-header" v-if="initializing">Loading your data</div>
   <div v-else>
     <h1 class="app">{{ appName }}</h1>
-    <gritem-list name="Selected Profile" :profile="getActiveProfileId">
-    </gritem-list>
+    <div class="list-container">
+      <gritem-list name="Selected Profile" :profile="getActiveProfileId">
+      </gritem-list>
 
-    <gritem-list name="Shopping List" :profile="shoppingListProfile">
-    </gritem-list>
+      <gritem-list name="Shopping List" :profile="shoppingListProfile">
+      </gritem-list>
+    </div>
     <ul v-if="apiErrors">
       Something went wrong.
       <li v-for="err in apiErrorMessages" :key="err.index">
@@ -91,6 +93,13 @@ h1 {
   box-sizing: border-box;
   color: black;
   vertical-align: middle;
+}
+
+.list-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 input {

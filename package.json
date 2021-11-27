@@ -19,7 +19,7 @@
   "dependencies": {
     "@directus/sdk": "^9.0.0-rc.99",
     "core-js": "^3.6.5",
-    "directus": "^9.0.0-rc.97",
+    "directus": "^9.1.0",
     "vue": "^3.0.0",
     "vuex": "^4.0.2"
   },
