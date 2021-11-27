@@ -14,10 +14,7 @@ div {
   box-sizing: border-box;
 }
 div.card {
-  display: inline-block;
-  vertical-align: top;
-  margin: 0.5rem;
-  max-width: 40%;
+  flex: 1 0 20rem;
   padding: 0rem;
   box-sizing: border-box;
   border-radius: 10px 10px 10px 10px;
