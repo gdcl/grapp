@@ -42,7 +42,7 @@ describe("Share factory plugin default share provider", () => {
     for (const item of testItemList) {
       expect(message).toEqual(
         expect.stringContaining(
-          `${item.name}: ${item.quantity}${item.unit ? item.unit : ""}`
+          `${item.name}: ${item.quantity} ${item.unit ? item.unit : ""}`
         )
       );
     }
@@ -79,7 +79,7 @@ describe("Share factory plugin text share provider", () => {
   //   for (const item of shortTestItemList) {
   //     expect(message).toEqual(
   //       expect.stringContaining(
-  //         `${item.name}: ${item.quantity}${item.unit ? item.unit : ""}`
+  //         `${item.name}: ${item.quantity} ${item.unit ? item.unit : ""}`
   //       )
   //     );
   //   }
