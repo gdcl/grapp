@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div :class="`card${modal ? ' modal' : ''}`">
     <div class="card-header">
       <slot name="header"></slot>
     </div>
@@ -8,6 +8,12 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  props: ["modal"],
+};
+</script>
 
 <style scoped>
 div {
@@ -21,6 +27,15 @@ div.card {
   border: 1px solid rgb(208, 215, 222);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.112);
   background-color: rgba(255, 255, 255, 0.892);
+}
+
+.modal {
+  position: fixed;
+  width: 30rem;
+  top: 15vh;
+  left: 25vw;
+  z-index: 500;
+  background-color: rgb(193, 193, 193);
 }
 
 div.card-header {

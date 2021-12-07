@@ -48,7 +48,6 @@ button {
   font-size: 1em;
   text-align: middle;
   color: #0969da;
-  /* rgb(34, 10, 247); */
   background: none;
   margin: 0;
   padding: 0 0 0 5px;

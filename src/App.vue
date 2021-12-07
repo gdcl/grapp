@@ -27,7 +27,7 @@ export default {
   name: "Grapp",
   components: {
     GritemList,
-  },
+},
   computed: {
     ...mapState(["initializing", "apiErrorMessages"]),
     ...mapGetters(["shoppingListProfile", "apiErrors", "getActiveProfileId"]),
@@ -131,5 +131,20 @@ button {
   border-radius: 6px;
   vertical-align: middle;
   cursor: pointer;
+}
+
+button.lean {
+  background: transparent;
+  border: none;
+  padding: 0;
+  transition: 250ms;
+}
+
+svg {
+  fill: black;
+}
+
+svg:hover {
+  fill: #0969da;
 }
 </style>
