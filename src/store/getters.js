@@ -33,6 +33,10 @@ export default {
     return getters.getProfileByName("current");
   },
 
+  shoppingListItems(state, getters) {
+    return getters.getItemsByProfile(getters.shoppingListProfile);
+  },
+
   apiErrors(state) {
     return state.apiErrorMessages && state.apiErrorMessages.length > 0;
   },
