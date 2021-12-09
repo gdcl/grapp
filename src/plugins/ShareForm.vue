@@ -86,7 +86,6 @@ export default {
         },
 
         async share() {
-            this.error = false;
             let nr = this.phonenr
             if (!nr.startsWith('+')) {
                 nr = `+1${nr}`;
@@ -95,6 +94,7 @@ export default {
             try {
                 const result = await textShare.share(nr, this.shoppingListItems);
                 this.formState = "submitted";
+                this.error = false;
                 console.log('share done - got back:')
                 console.dir(result)
                 this.feedback = `<strong>Success</strong> <p>Shopping list was shared to <em>${this.phonenr}</em>`;
@@ -110,15 +110,6 @@ export default {
         }
     }
 }
-    // watch: {
-    //     apiResult(newResult, oldResult) {
-    //         if (newResult.success) {
-    //             setTimeout(this.close(), 1000);
-    //         }
-    //         console.debug(oldResult);
-    //     }
-    // }
-
 
 </script>
 
