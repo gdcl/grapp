@@ -7,12 +7,14 @@
             <template v-slot:dialogBody>
                 <div class="share-form">
                     <form v-if="formState === 'init' || error" @submit.prevent="share">
-                        <label>
-                            <p>Enter Phone Number:</p>
-                            <input :class="errorClass" v-model="phonenr" />
-                        </label>
-                        <button>Share</button>
-                        <button @click="close" class="cancel">Cancel</button>
+                        <p>Enter Phone Number:</p>
+                        <div class="formaction">
+                            <label>
+                                <input :class="errorClass" v-model="phonenr" />
+                            </label>
+                            <button>Share</button>
+                            <button @click="close" class="cancel">Cancel</button>
+                        </div>
                     </form>
                     <div :class="feedbackClass" v-if="feedback" class="feedback">
                         <svg
@@ -132,6 +134,11 @@ h1 {
 
 p {
     font-size: 0.9rem;
+}
+
+.formaction {
+    display: flex;
+    align-items: center;
 }
 
 input.forminput {
