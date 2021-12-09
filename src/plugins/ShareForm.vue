@@ -104,8 +104,16 @@ export default {
             } catch (error) {
                 this.error = true;
                 this.feedback = "<strong>Error</strong> <p>" + error;
-                this.formState = "init";
+                this.formState = "submitted";
 
+            }
+        }
+    },
+    watch: {
+        phonenr(oldVal, newVal) {
+            if (oldVal !== newVal && this.formState === "submitted") {
+                this.formState = "init";
+                this.feedback = "";
             }
         }
     }
