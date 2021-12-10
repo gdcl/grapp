@@ -79,13 +79,13 @@ span {
 }
 
 button {
-  font-family: "Arial" sans-serif;
+  /* font-family: "Arial" sans-serif;
   font-size: 1em;
   text-align: middle;
-  color: #0969da;
+  color: #0969da; */
   background: none;
   margin: 0;
-  padding: 0 0 0 5px;
+  padding: 0 0 0 0.5rem;
   border: none;
   cursor: pointer;
 }
