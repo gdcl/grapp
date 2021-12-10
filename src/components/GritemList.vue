@@ -24,9 +24,9 @@
       </div>
       <div class="form">
         <form @submit.prevent="addNewItem">
-          <input type="text" name="name" placeholder="name" v-model="newName" ref="inputname" />
-          <input type="text" name="quantity" size="5" placeholder="nr" v-model.number="newQty" />
-          <input type="text" name="unit" size="5" placeholder="units" v-model="newUnit" />
+          <input type="text" name="name" placeholder="name" size="15" v-model="newName" ref="inputname" />
+          <input type="text" name="quantity" size="2" placeholder="nr" v-model.number="newQty" />
+          <input type="text" name="unit" size="4" placeholder="units" v-model="newUnit" />
           <button>New Item</button>
         </form>
       </div>
@@ -96,11 +96,6 @@ export default {
 </script>
 
 <style scoped>
-.form {
-  padding: 0px 0px;
-  margin: 0.5rem 0.5rem;
-}
-
 .shoppinglist-header {
   display: flex;
   flex-direction: column;
@@ -114,6 +109,11 @@ export default {
   flex-direction: column;
   flex-wrap: nowrap;
   justify-content: space-between;
+}
+
+.form {
+  padding: 0px 0px;
+  margin: 0.5rem 0.5rem;
 }
 
 h1,
