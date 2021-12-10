@@ -16,16 +16,20 @@
         </div>
       </div>
     </template>
-    <div class="item">
-      <gritem v-for="item in listItems" :key="item.id" :item="item"></gritem>
-    </div>
-    <div class="form">
-      <form @submit.prevent="addNewItem">
-        <input type="text" name="name" placeholder="name" v-model="newName" ref="inputname" />
-        <input type="text" name="quantity" size="5" placeholder="nr" v-model.number="newQty" />
-        <input type="text" name="unit" size="5" placeholder="units" v-model="newUnit" />
-        <button>New Item</button>
-      </form>
+    <div class="listcontent">
+      <div class="allitems">
+        <div class="item">
+          <gritem v-for="item in listItems" :key="item.id" :item="item"></gritem>
+        </div>
+      </div>
+      <div class="form">
+        <form @submit.prevent="addNewItem">
+          <input type="text" name="name" placeholder="name" v-model="newName" ref="inputname" />
+          <input type="text" name="quantity" size="5" placeholder="nr" v-model.number="newQty" />
+          <input type="text" name="unit" size="5" placeholder="units" v-model="newUnit" />
+          <button>New Item</button>
+        </form>
+      </div>
     </div>
   </base-card>
   <share-form
@@ -99,10 +103,17 @@ export default {
 
 .shoppinglist-header {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-flow: nowrap;
   justify-content: space-between;
   align-items: center;
+}
+
+.listcontent {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: space-between;
 }
 
 h1,
