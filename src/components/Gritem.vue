@@ -85,7 +85,7 @@ button {
   color: #0969da; */
   background: none;
   margin: 0;
-  padding: 0 0 0 0.5rem;
+  padding: 0 0 0 0.6rem;
   border: none;
   cursor: pointer;
 }
