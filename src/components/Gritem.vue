@@ -3,13 +3,48 @@
   <div class="row">
     <div class="theitem">{{ item.name }}: {{ total }}</div>
     <div class="actions">
-      <button v-if="inShoppingList" @click.prevent="deleteItem(item.id)">
-        Remove
+      <button @click.prevent="increaseItem(item)">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="24px"
+          viewBox="0 0 24 24"
+          width="24px"
+          fill="#000000"
+        >
+          <path d="M0 0h24v24H0z" fill="none" />
+          <path d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z" />
+        </svg>
       </button>
-      <button v-else @click.prevent="addItemToShoppingList(item)">Add</button>
-
-      <button @click.prevent="increaseItem(item)">+1</button>
-      <button @click.prevent="decreaseItem(item)">-1</button>
+      <button @click.prevent="decreaseItem(item)">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="24px"
+          viewBox="0 0 24 24"
+          width="24px"
+          fill="#000000"
+        >
+          <path d="M0 0h24v24H0z" fill="none" />
+          <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z" />
+        </svg>
+      </button>
+      <button v-if="inShoppingList" @click.prevent="deleteItem(item.id)">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="24px"
+          viewBox="0 0 24 24"
+          width="24px"
+          fill="#000000"
+        >
+          <path d="M0 0h24v24H0z" fill="none" />
+          <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+        </svg>
+      </button>
+      <button v-else @click.prevent="addItemToShoppingList(item)">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px">
+          <path d="M0 0h24v24H0z" fill="none" />
+          <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" />
+        </svg>
+      </button>
     </div>
   </div>
 </template>
@@ -62,22 +97,24 @@ button {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  justify-items: center;
+  align-items: center;
 }
 
 .row:hover {
-  padding: 8px 10px;
+  /* padding: 8px 10px;
   border-bottom: 1px solid rgb(208, 215, 222);
-  box-sizing: border-box;
+  box-sizing: border-box; */
   background-color: #f6f8fa;
-  display: flex;
+  /* display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-between; */
 }
 
-/* div.theitem {
-  display: inline;
+div.theitem {
+  text-align: center;
 }
-
+/* 
 div.actions {
   display: inline;
 } */
