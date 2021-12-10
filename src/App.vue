@@ -64,7 +64,7 @@ export default {
   text-align: left;
   color: #000000;
   background-color: rgb(255, 255, 255);
-  padding: 0.1rem 1rem;
+  padding: 0.1rem 0;
   height: 100%;
 }
 
@@ -114,6 +114,7 @@ h1 {
   flex-direction: row;
   flex-wrap: wrap;
   gap: 1rem;
+  padding: 0 0.5rem;
 }
 
 input {
