@@ -4,16 +4,14 @@
   <div v-else>
     <h1 class="app">{{ appName }}</h1>
     <div class="list-container">
-      <gritem-list name="Selected Profile" :profile="getActiveProfileId">
-      </gritem-list>
+      <gritem-list name="Selected Profile" :profile="getActiveProfileId"></gritem-list>
 
-      <gritem-list name="Shopping List" :profile="shoppingListProfile">
-      </gritem-list>
+      <gritem-list name="Shopping List" :profile="shoppingListProfile"></gritem-list>
     </div>
     <ul v-if="apiErrors">
       Something went wrong.
       <li v-for="err in apiErrorMessages" :key="err.index">
-        <span> {{ err }} </span>
+        <span>{{ err }}</span>
       </li>
     </ul>
   </div>
@@ -27,7 +25,7 @@ export default {
   name: "Grapp",
   components: {
     GritemList,
-},
+  },
   computed: {
     ...mapState(["initializing", "apiErrorMessages"]),
     ...mapGetters(["shoppingListProfile", "apiErrors", "getActiveProfileId"]),
@@ -50,6 +48,14 @@ export default {
   margin: 0px 0px;
 }
 
+:root {
+  --main-bg-color: white;
+  --header-bg-color: #f6f8fa;
+  --link-hover-color: #248aff;
+  --h1-color: #0969da;
+  --border-color: rgb(208, 215, 222);
+}
+
 #app {
   /* font-family: Helvetica, Arial, sans-serif;  */
   font-family: Arial, sans-serif;
@@ -58,7 +64,7 @@ export default {
   text-align: left;
   color: #000000;
   background-color: rgb(255, 255, 255);
-  padding: 1rem 1rem;
+  padding: 0.1rem 1rem;
   height: 100%;
 }
 
@@ -69,6 +75,7 @@ img.icon {
 html,
 body {
   margin: 0;
+  padding: 0;
   height: 100%;
 }
 
@@ -81,21 +88,28 @@ div {
 }
 
 h1.app {
-  font-size: 1.5rem;
-  margin: 0.5rem 1rem 0.3rem 1rem;
-  box-sizing: border-box;
-  color: #0969da;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  font-size: 1.2rem;
+  margin: 0 0 1.5rem 0;
+  padding: 1rem 1rem 1.5rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--h1-color);
+  background-color: var(--header-bg-color);
 }
 
 h1 {
   font-size: 1rem;
   margin: 0rem;
-  box-sizing: border-box;
   color: black;
   vertical-align: middle;
 }
 
 .list-container {
+  position: absolute;
+  top: 5rem;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -145,6 +159,6 @@ svg {
 }
 
 svg:hover {
-  fill: #0969da;
+  fill: var(--link-hover-color);
 }
 </style>
