@@ -67,21 +67,15 @@ describe("Share factory plugin text share provider", () => {
   });
 
   //TODO #24 use axios for text api to not have to futz with testing in node vs working in browser
-  // it("can share messages", async () => {
-  //   const res = await provider.share("+17037270058", shortTestItemList);
-  //   expect(res).toHaveProperty("result");
-  //   expect(res.result);
-  //   expect(res).toHaveProperty("message");
-  //   const message = res.message;
-  //   expect(message).toEqual(
-  //     expect.stringContaining("Shopping list shared by Grapp:")
-  //   );
-  //   for (const item of shortTestItemList) {
-  //     expect(message).toEqual(
-  //       expect.stringContaining(
-  //         `${item.name}: ${item.quantity} ${item.unit ? item.unit : ""}`
-  //       )
-  //     );
-  //   }
-  // });
+  it("can share messages when provided a valid number", async () => {
+    const res = await provider.share("123456789", shortTestItemList);
+    expect(res).toHaveProperty("success");
+    expect(res.success).toEqual(true);
+  });
+
+  it("returns a rejected promise with an error code when provided an invalid number", async () => {
+    return expect(
+      provider.share("abcdef", shortTestItemList)
+    ).rejects.toContain("Invalid phone number or bad request");
+  });
 });
