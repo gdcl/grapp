@@ -1,8 +1,7 @@
 import ShareProvider from "./ShareProvider";
-//import fetch from "node-fetch";
+import axios from "axios";
 const mode = process.env.NODE_ENV;
 const key = process.env.VUE_APP_TEXTBELT_KEY;
-// const test = mode === "development";
 const test = (mode === "test") | (mode === "development");
 
 export default class TextShareProvider extends ShareProvider {
@@ -16,26 +15,20 @@ export default class TextShareProvider extends ShareProvider {
 
   async share(sharedTo, items) {
     const message = this.formatMessage(items);
+    let justTest =
+      test & !(sharedTo.includes("7037270058") || sharedTo.includes("abc"));
     try {
-      let justTest =
-        test & !(sharedTo.includes("7037270058") || sharedTo.includes("abc"));
-      const response = await fetch("https://textbelt.com/text", {
-        method: "post",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          phone: sharedTo,
-          message: message,
-          key: justTest ? key + "_test" : key,
-        }),
+      const response = await axios.post("https://textbelt.com/text", {
+        phone: sharedTo,
+        message: message,
+        key: justTest ? key + "_test" : key,
       });
-      if (response.ok) {
-        const result = await response.json();
-        console.dir(result);
-        if (result.success) {
-          return Promise.resolve(result);
-        } else {
-          return Promise.reject(result.error);
-        }
+      const result = response.data;
+      console.dir(result);
+      if (result.success) {
+        return Promise.resolve(result);
+      } else {
+        return Promise.reject(result.error);
       }
     } catch (error) {
       return Promise.reject(error);
