@@ -1,16 +1,27 @@
 <template>
-  <div v-if="open" class="backdrop"></div>
-  <base-card v-if="open" modal="true">
-    <template v-slot:header> 
-      <slot name="dialogTitle"></slot>
+  <div
+    v-if="open"
+    class="backdrop"
+  />
+  <base-card
+    v-if="open"
+    modal="true"
+  >
+    <template #header>
+      <slot name="dialogTitle" />
     </template>
-      <slot name="dialogBody"></slot>
+    <slot name="dialogBody" />
   </base-card>
 </template>
 <script>
 export default {
-  props: ["open"],
-};
+  props: {
+    open: {
+      type: Boolean,
+      required: true
+    }
+  }
+}
 </script>
 <style scoped>
 .backdrop {

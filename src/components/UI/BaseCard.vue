@@ -1,18 +1,23 @@
 <template>
   <div :class="`card${modal ? ' modal' : ''}`">
     <div class="card-header">
-      <slot name="header"></slot>
+      <slot name="header" />
     </div>
     <div class="card-body">
-      <slot></slot>
+      <slot />
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["modal"],
-};
+  props: {
+    modal: {
+      type: Boolean,
+      required: true
+    },
+  }
+}
 </script>
 
 <style scoped>
