@@ -9,9 +9,11 @@
     "lint": "vue-cli-service lint",
     "build": "vue-cli-service build",
     "postbuild": "npm run test",
-    "pretest": "npm-run-all  initdb --target=test serve-directus --target=test &",
-    "test": "npm run test:unit -- --coverage",
+    "test": "npm run test:unit",
     "test:unit": "vue-cli-service test:unit",
+    "test:integration": "vue-cli-service test:unit --testMatch '**/tests/integration/**/*.spec.[jt]s?(x)'",
+    "test:E2E": "vue-cli-service test:unit --testMatch '**/tests/E2E/**/*.spec.[jt]s?(x)' --passWithNoTests",
+    "pretest:integration": "npm-run-all  initdb --target=test serve-directus --target=test &",
     "bootstrapdb": "sqlite3 < backend/db/001-schema.$npm_config_target.sql backend/db/$npm_config_target.db",
     "cleardb": "sqlite3 < backend/db/clear-database.sql backend/db/$npm_config_target.db",
     "initdb": "npm-run-all cleardb --target=$npm_config_target bootstrapdb --target=$npm_config_target"
@@ -28,17 +30,17 @@
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-unit-jest": "~4.5.0",
+    "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.0",
-    "@vue/test-utils": "^2.0.0-rc.16",
+    "@vue/test-utils": "^2.0.0-0",
     "babel-eslint": "^10.1.0",
-    "babel-jest": "^27.3.1",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^7.0.0",
     "node-fetch": "^2.6.6",
     "npm-run-all": "^4.1.5",
     "typescript": "~3.9.3",
-    "vue-jest": "^5.0.0-alpha.10"
+    "vue-jest": "^5.0.0-0"
   },
   "eslintConfig": {
     "root": true,
@@ -46,18 +48,17 @@
       "node": true
     },
     "extends": [
-      "plugin:vue/vue3-essential",
+      "plugin:vue/essential",
       "eslint:recommended"
     ],
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {},
     "overrides": [
       {
         "files": [
           "**/__tests__/*.{j,t}s?(x)",
-          "**/tests/unit/**/*.spec.{j,t}s?(x)"
+          "**/tests/**/**/*.spec.{j,t}s?(x)"
         ],
         "env": {
           "jest": true

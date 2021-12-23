@@ -1,5 +1,5 @@
 {
-  "include": ["./src/**/*", "tests/api.spec.js"],
+  "include": ["./src/**/*", "tests/**/*"],
   "exclude": ["node_modules"],
   "typeAcquisition": {
     "include": ["jest"]
