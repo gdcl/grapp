@@ -48,7 +48,7 @@
       "node": true
     },
     "extends": [
-      "plugin:vue/essential",
+      "plugin:vue/vue3-strongly-recommended",
       "eslint:recommended"
     ],
     "parserOptions": {

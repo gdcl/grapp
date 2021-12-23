@@ -6,6 +6,6 @@ import store from "./store/index.js";
 
 const app = createApp(App);
 app.use(store);
-app.component("base-card", BaseCard);
-app.component("base-dialog", BaseDialog);
+app.component("BaseCard", BaseCard);
+app.component("BaseDialog", BaseDialog);
 app.mount("#app");
