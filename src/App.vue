@@ -1,16 +1,32 @@
 <template>
   <!--  <img class="icon" src="./assets/groceries.png"> -->
-  <div class="app-header" v-if="initializing">Loading your data</div>
+  <div
+    class="app-header"
+    v-if="initializing"
+  >
+    Loading your data
+  </div>
   <div v-else>
-    <h1 class="app">{{ appName }}</h1>
+    <h1 class="app">
+      {{ appName }}
+    </h1>
     <div class="list-container">
-      <gritem-list name="Selected Profile" :profile="getActiveProfileId"></gritem-list>
+      <gritem-list
+        name="Selected Profile"
+        :profile="getActiveProfileId"
+      />
 
-      <gritem-list name="Shopping List" :profile="shoppingListProfile"></gritem-list>
+      <gritem-list
+        name="Shopping List"
+        :profile="shoppingListProfile"
+      />
     </div>
     <ul v-if="apiErrors">
       Something went wrong.
-      <li v-for="err in apiErrorMessages" :key="err.index">
+      <li
+        v-for="err in apiErrorMessages"
+        :key="err.index"
+      >
         <span>{{ err }}</span>
       </li>
     </ul>

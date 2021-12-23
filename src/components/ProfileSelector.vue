@@ -10,9 +10,17 @@
     >
       {{ prf.name }}
     </option>
-    <option :value="-1" :key="-1">-- Make New --</option>
+    <option
+      :value="-1"
+      :key="-1"
+    >
+      -- Make New --
+    </option>
   </select>
-  <form v-if="createNew" @submit.prevent="createNewProfile">
+  <form
+    v-if="createNew"
+    @submit.prevent="createNewProfile"
+  >
     New profile:
     <input
       type="text"
@@ -20,7 +28,7 @@
       name="newprofile"
       size="20"
       v-model.trim="newProfile"
-    />
+    >
     <button>New Profile</button>
   </form>
 </template>
