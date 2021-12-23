@@ -1,12 +1,23 @@
 <template>
   <base-card>
-    <template v-slot:header>
+    <template #header>
       <profile-selector v-if="name === 'Selected Profile'" />
-      <div v-else class="shoppinglist-header">
+      <div
+        v-else
+        class="shoppinglist-header"
+      >
         <h1>{{ name }}</h1>
         <div class="icon">
-          <button class="lean" @click="dialogOpen = true;">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22px" height="22px">
+          <button
+            class="lean"
+            @click="dialogOpen = true;"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width="22px"
+              height="22px"
+            >
               <path
                 d="M 18 2 A 3 3 0 0 0 15 5 A 3 3 0 0 0 15.054688 5.5605469 L 7.9394531 9.7109375 A 3 3 0 0 0 6 9 A 3 3 0 0 0 3 12 A 3 3 0 0 0 6 15 A 3 3 0 0 0 7.9355469 14.287109 L 15.054688 18.439453 A 3 3 0 0 0 15 19 A 3 3 0 0 0 18 22 A 3 3 0 0 0 21 19 A 3 3 0 0 0 18 16 A 3 3 0 0 0 16.0625 16.712891 L 8.9453125 12.560547 A 3 3 0 0 0 9 12 A 3 3 0 0 0 8.9453125 11.439453 L 16.060547 7.2890625 A 3 3 0 0 0 18 8 A 3 3 0 0 0 21 5 A 3 3 0 0 0 18 2 z"
               />
@@ -19,14 +30,37 @@
     <div class="listcontent">
       <div class="allitems">
         <div class="item">
-          <gritem v-for="item in listItems" :key="item.id" :item="item"></gritem>
+          <gritem
+            v-for="item in listItems"
+            :key="item.id"
+            :item="item"
+          />
         </div>
       </div>
       <div class="form">
         <form @submit.prevent="addNewItem">
-          <input type="text" name="name" placeholder="name" size="15" v-model="newName" ref="inputname" />
-          <input type="text" name="quantity" size="2" placeholder="nr" v-model.number="newQty" />
-          <input type="text" name="unit" size="4" placeholder="units" v-model="newUnit" />
+          <input
+            type="text"
+            name="name"
+            placeholder="name"
+            size="15"
+            v-model="newName"
+            ref="inputname"
+          >
+          <input
+            type="text"
+            name="quantity"
+            size="2"
+            placeholder="nr"
+            v-model.number="newQty"
+          >
+          <input
+            type="text"
+            name="unit"
+            size="4"
+            placeholder="units"
+            v-model="newUnit"
+          >
           <button>New Item</button>
         </form>
       </div>
@@ -36,7 +70,7 @@
     v-if="name !== 'Selected Profile'"
     :open="dialogOpen"
     @dialog-closed="dialogOpen = false"
-  ></share-form>
+  />
 </template>
 <script>
 import Gritem from "./Gritem.vue";
@@ -51,8 +85,14 @@ export default {
     ShareForm,
   },
   props: {
-    name: String,
-    profile: Number,
+    name: {
+      type: String,
+      required: true
+    },
+    profile: {
+      type: Number,
+      required: true
+    }
   },
   data() {
     return {

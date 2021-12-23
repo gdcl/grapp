@@ -24,7 +24,6 @@ export default class TextShareProvider extends ShareProvider {
         key: justTest ? key + "_test" : key,
       });
       const result = response.data;
-      console.dir(result);
       if (result.success) {
         return Promise.resolve(result);
       } else {
