@@ -19,10 +19,10 @@ export const debug = process.env.NODE_ENV === "development";
 const plugins = debug ? [createLogger({})] : [];
 
 export const storeConfig = {
-  state: state,
-  mutations: mutations,
-  actions: actions,
-  getters: getters,
-  plugins: plugins,
+  state,
+  mutations,
+  actions,
+  getters,
+  plugins,
 };
 export default createStore(storeConfig);

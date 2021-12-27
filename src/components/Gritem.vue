@@ -1,11 +1,9 @@
 <template>
   <!-- #TODO #17 create individual item component -->
   <div class="row">
-    <div class="theitem">
-      {{ item.name }}: {{ total }}
-    </div>
+    <div class="theitem">{{ item.name }}: {{ total }}</div>
     <div class="actions">
-      <button @click.prevent="increaseItem(item)">
+      <button @click.prevent="increaseItem(item)" test-data="increase">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           height="24px"
@@ -13,14 +11,11 @@
           width="24px"
           fill="#000000"
         >
-          <path
-            d="M0 0h24v24H0z"
-            fill="none"
-          />
+          <path d="M0 0h24v24H0z" fill="none" />
           <path d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z" />
         </svg>
       </button>
-      <button @click.prevent="decreaseItem(item)">
+      <button @click.prevent="decreaseItem(item)" test-data="decrease">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           height="24px"
@@ -28,17 +23,11 @@
           width="24px"
           fill="#000000"
         >
-          <path
-            d="M0 0h24v24H0z"
-            fill="none"
-          />
+          <path d="M0 0h24v24H0z" fill="none" />
           <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z" />
         </svg>
       </button>
-      <button
-        v-if="inShoppingList"
-        @click.prevent="deleteItem(item.id)"
-      >
+      <button v-if="inShoppingList" @click.prevent="deleteItem(item.id)" test-data="delete">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           height="24px"
@@ -46,27 +35,13 @@
           width="24px"
           fill="#000000"
         >
-          <path
-            d="M0 0h24v24H0z"
-            fill="none"
-          />
+          <path d="M0 0h24v24H0z" fill="none" />
           <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
         </svg>
       </button>
-      <button
-        v-else
-        @click.prevent="addItemToShoppingList(item)"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          height="24px"
-          viewBox="0 0 24 24"
-          width="24px"
-        >
-          <path
-            d="M0 0h24v24H0z"
-            fill="none"
-          />
+      <button v-else @click.prevent="addItemToShoppingList(item)" test-data="shoppingList">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px">
+          <path d="M0 0h24v24H0z" fill="none" />
           <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" />
         </svg>
       </button>
