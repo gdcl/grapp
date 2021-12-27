@@ -25,8 +25,8 @@ async function invoke(apiPromise, mutation, context, optional_payload) {
       const payload = optional_payload
         ? optional_payload
         : "data" in items
-        ? items["data"]
-        : items;
+          ? items["data"]
+          : items;
       await context.commit(mutation, payload);
       if (context.getters.apiErrors) {
         context.commit("clearApiError");
