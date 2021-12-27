@@ -32,9 +32,9 @@ describe("Gritem.vue", () => {
           $store: store,
         },
       },
-      propsData: {
+      props: {
         item: {
-          profile: getters.shoppingListProfile()-1,
+          profile: getters.shoppingListProfile() - 1,
           name: "name",
           quantity: 5,
         },
@@ -47,7 +47,7 @@ describe("Gritem.vue", () => {
           $store: store,
         },
       },
-      propsData: {
+      props: {
         item: {
           profile: getters.shoppingListProfile(),
           name: "name",
@@ -110,7 +110,6 @@ describe("Gritem.vue", () => {
 
     expect(wrapper.find('[test-data="shoppingList"').exists()).toBe(false);
   });
-
 
   it("calls addItemToShoppingList upon click of add item button if not in shopping list", async () => {
     const wrapper = mount(Gritem, nonShoppingGritemMnt);
