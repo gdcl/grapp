@@ -118,7 +118,7 @@ export default {
 
     async function doShare() {
       try {
-        const result = await share(shareTo.value, shoppingListItems.value);
+        await share(shareTo.value, shoppingListItems.value);
         formState.value = "submitted";
         error.value = false;
         feedback.value = `<strong>Success</strong> <p>Shopping list was shared to <em>${shareTo.value}</em>`;
