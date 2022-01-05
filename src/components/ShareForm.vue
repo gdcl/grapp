@@ -92,7 +92,6 @@ export default {
 
     // Share hook
     const { selectedShare, selectShare, getShareProviders, shareToMessage, share } = useShare();
-    console.dir(getShareProviders());
 
     function shareSelectClass(item) {
       return (item === selectedShare.value) ? 'shareselect selected' : 'shareselect'
@@ -122,8 +121,6 @@ export default {
         const result = await share(shareTo.value, shoppingListItems.value);
         formState.value = "submitted";
         error.value = false;
-        console.log('share done - got back:')
-        console.dir(result)
         feedback.value = `<strong>Success</strong> <p>Shopping list was shared to <em>${shareTo.value}</em>`;
         setTimeout(() => {
           close();

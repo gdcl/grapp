@@ -23,18 +23,13 @@ export default {
         key: justTest ? key + "_test" : key,
       });
       const result = response.data;
-      console.log("result from api:");
-      console.dir(result);
       if (result.success) {
-        console.log("API success returning: ");
-        const suc = Promise.resolve(result);
-        console.dir(suc);
-        return suc;
+        return Promise.resolve(result);
       } else {
-        console.log("API failure returning: ");
-        const rej = Promise.reject(result.error);
-        console.dir(rej);
-        return rej;
+        const msg = result.error.includes("Invalid phone number")
+          ? "Please enter a valid phone number"
+          : result.error;
+        return Promise.reject(msg);
       }
     } catch (error) {
       return Promise.reject(error);

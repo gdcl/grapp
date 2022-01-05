@@ -24,7 +24,8 @@ export default {
     hasFooterSlot() {
       return !!this.$slots.footer
     }
-  }
+  },
+  inheritAttrs: false
 }
 </script>
 

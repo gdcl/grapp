@@ -1,5 +1,4 @@
 <template>
-  <!-- #TODO #17 create individual item component -->
   <div class="row">
     <div class="theitem">{{ item.name }}: {{ total }}</div>
     <div class="actions">
@@ -119,8 +118,4 @@ button {
 div.theitem {
   text-align: center;
 }
-/* 
-div.actions {
-  display: inline;
-} */
 </style>

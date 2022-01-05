@@ -4,7 +4,7 @@ import formData from "form-data";
 
 const API_KEY = process.env.VUE_APP_MAILGUN_KEY;
 const DOMAIN = process.env.VUE_APP_MAILGUN_DOMAIN;
-// const endpoint = 'https://api.mailgun.net/v3/sandbox0a158a7d88b34faa965ee76c48ec66a2.mailgun.org'
+
 export default {
   shareToMessage: "E-mail address",
   share: async function (sharedTo, items) {
@@ -24,6 +24,12 @@ export default {
       const res = await client.messages.create(DOMAIN, messageData);
       return Promise.resolve(res);
     } catch (err) {
+      if (err.status === 400 && "details" in err && "message" in err.details) {
+        const excMsg = err.details.message.includes("not a valid address")
+          ? "Please enter a valid E-mail address"
+          : err.details.message;
+        return Promise.reject(excMsg);
+      }
       return Promise.reject(err);
     }
   },
