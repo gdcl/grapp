@@ -1,5 +1,5 @@
-import shareFactory from "../../../src/plugins/ShareProviderFactory";
-import ShareProvider from "../../../src/plugins/ShareProvider";
+import shareFactory from "../../../src/hooks/ShareHook";
+import ShareProvider from "../../../src/hooks/ShareHelper";
 
 let testItemList = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => ({
   name: `jest${i}`,
@@ -66,7 +66,6 @@ describe("Share factory plugin text share provider", () => {
     expect(provider.getSharedTos()).toContainEqual("test2");
   });
 
-  //TODO #24 use axios for text api to not have to futz with testing in node vs working in browser
   it("can share messages when provided a valid number", async () => {
     const res = await provider.share("123456789", shortTestItemList);
     expect(res).toHaveProperty("success");

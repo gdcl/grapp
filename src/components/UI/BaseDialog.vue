@@ -1,16 +1,14 @@
 <template>
-  <div
-    v-if="open"
-    class="backdrop"
-  />
-  <base-card
-    v-if="open"
-    modal="true"
-  >
+  <div v-if="open" class="backdrop" />
+  <base-card v-if="open" :modal="true">
     <template #header>
       <slot name="dialogTitle" />
     </template>
     <slot name="dialogBody" />
+
+    <template #footer>
+      <slot name="dialogFooter" />
+    </template>
   </base-card>
 </template>
 <script>

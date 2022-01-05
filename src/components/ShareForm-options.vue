@@ -6,32 +6,17 @@
       </template>
       <template #dialogBody>
         <div class="share-form">
-          <form
-            v-if="formState === 'init' || error"
-            @submit.prevent="share"
-          >
+          <form v-if="formState === 'init' || error" @submit.prevent="share">
             <p>Enter Phone Number:</p>
             <div class="formaction">
               <label>
-                <input
-                  :class="errorClass"
-                  v-model="phonenr"
-                >
+                <input :class="errorClass" v-model="phonenr" />
               </label>
               <button>Share</button>
-              <button
-                @click="close"
-                class="cancel"
-              >
-                Cancel
-              </button>
+              <button @click="close" class="cancel">Cancel</button>
             </div>
           </form>
-          <div
-            :class="feedbackClass"
-            v-if="feedback"
-            class="feedback"
-          >
+          <div :class="feedbackClass" v-if="feedback" class="feedback">
             <svg
               v-if="error"
               xmlns="http://www.w3.org/2000/svg"
@@ -39,10 +24,7 @@
               width="100px"
               height="48px"
             >
-              <path
-                d="M0 0h24v24H0z"
-                fill="none"
-              />
+              <path d="M0 0h24v24H0z" fill="none" />
               <path
                 d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"
               />
@@ -54,10 +36,7 @@
               width="48px"
               height="48px"
             >
-              <path
-                d="M0 0h24v24H0z"
-                fill="none"
-              />
+              <path d="M0 0h24v24H0z" fill="none" />
               <path
                 d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
               />
@@ -67,12 +46,16 @@
           </div>
         </div>
       </template>
+      <template #dialogFooter>
+        Share via Text message
+        Share via E-mail
+      </template>
     </base-dialog>
   </teleport>
 </template>
 
 <script>
-import shareFactory from "./ShareProviderFactory";
+import shareFactory from "../hooks/ShareHook";
 import { mapGetters } from "vuex";
 
 export default {
@@ -85,10 +68,11 @@ export default {
   emits: ['dialog-closed'],
   data() {
     return {
-      phonenr: "",
       formState: "init",
       error: false,
-      feedback: ""
+      feedback: "",
+      
+      phonenr: ""
     }
   },
   computed: {
@@ -102,10 +86,11 @@ export default {
   },
   methods: {
     reset() {
-      this.phonenr = "";
       this.formState = "init";
       this.error = false;
       this.feedback = "";
+
+      this.phonenr = "";
     },
 
     close() {

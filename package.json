@@ -6,6 +6,7 @@
     "serve": "npm-run-all --parallel serve-ui serve-directus --target=dev",
     "serve-directus": "export CONFIG_PATH=/Users/guyduchatelet/Dev/frontend/vue/grapp/backend/directus/.env-$npm_config_target && directus start >> backend/directus/directus-$npm_config_target.log",
     "serve-ui": "vue-cli-service serve",
+    "serve-ui-test": "vue-cli-service serve tests/visual/main.js",
     "lint": "vue-cli-service lint",
     "build": "vue-cli-service build",
     "postbuild": "npm run test",
@@ -22,6 +23,7 @@
     "@directus/sdk": "^9.0.0-rc.99",
     "core-js": "^3.6.5",
     "directus": "^9.1.0",
+    "mailgun.js": "^3.7.3",
     "vue": "^3.0.0",
     "vuex": "^4.0.2"
   },
