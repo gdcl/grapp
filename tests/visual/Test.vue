@@ -1,45 +1,32 @@
 <template>
-  <!--  <img class="icon" src="./assets/groceries.png"> -->
-  <div class="app-header" v-if="initializing">Loading your data</div>
-  <div v-else>
-    <h1 class="app">{{ appName }}</h1>
-    <div class="list-container">
-      <gritem-list listName="Selected Profile" :profile="getActiveProfileId" />
-      <gritem-list listName="Shopping List" :profile="shoppingListProfile" />
-    </div>
-    <ul v-if="apiErrors">
-      Something went wrong.
-      <li v-for="err in apiErrorMessages" :key="err.index">
-        <span>{{ err }}</span>
-      </li>
-    </ul>
-  </div>
+  <h1>Inspect your components here:</h1>
+  <h2>ShareForm</h2>
+  <share-form :open="true"></share-form>
+  <!-- <h2>BaseCard</h2>
+  <base-card modal="false">
+    <template #header>The header</template>
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis ad corrupti, asperiores rem hic in! Error laudantium totam velit neque optio reprehenderit eaque hic. Eligendi dolorum provident sapiente, non culpa quos eos laudantium? Exercitationem ullam saepe totam at cupiditate rem ducimus repellat! Dolores corrupti distinctio repellat iusto, esse aspernatur neque.
+    <template
+      #footer
+    >The footer</template>
+  </base-card>
+
+  <h2>BaseDialog</h2>
+  <base-dialog open="true">
+    <template #dialogTitle>Dialog Title</template>
+    <template
+      #dialogBody
+    >Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis ad corrupti, asperiores rem hic in! Error laudantium totam velit neque optio reprehenderit eaque hic. Eligendi dolorum provident sapiente, non culpa quos eos laudantium? Exercitationem ullam saepe totam at cupiditate rem ducimus repellat! Dolores corrupti distinctio repellat iusto, esse aspernatur neque.</template>
+    <template #dialogFooter>Dialog Footer</template>
+  </base-dialog>-->
 </template>
 
 <script>
-import GritemList from "./components/GritemList.vue";
-import { mapState, mapGetters, mapActions } from "vuex";
-
+import ShareForm from "../../src/components/ShareForm-options.vue"
 export default {
-  name: "Grapp",
-  components: {
-    GritemList,
-  },
-  computed: {
-    ...mapState(["initializing", "apiErrorMessages"]),
-    ...mapGetters(["shoppingListProfile", "apiErrors", "getActiveProfileId"]),
-    appName() {
-      return process.env.VUE_APP_NAME;
-    },
-  },
-  methods: {
-    ...mapActions(["bootStrapStore"]),
-  },
-
-  async beforeMount() {
-    await this.bootStrapStore();
-  },
-};
+  name: "Test",
+  components: { ShareForm }
+}
 </script>
 
 <style>
@@ -53,7 +40,6 @@ export default {
   --link-hover-color: #248aff;
   --h1-color: #0969da;
   --border-color: rgb(208, 215, 222);
-  --card-body-color: rgba(255, 255, 255, 0.892);
 }
 
 #app {

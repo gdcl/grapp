@@ -6,6 +6,9 @@
     <div class="card-body">
       <slot />
     </div>
+    <div class="card-footer" v-if="hasFooterSlot">
+      <slot name="footer" />
+    </div>
   </div>
 </template>
 
@@ -16,7 +19,13 @@ export default {
       type: Boolean,
       required: true
     },
-  }
+  },
+  computed: {
+    hasFooterSlot() {
+      return !!this.$slots.footer
+    }
+  },
+  inheritAttrs: false
 }
 </script>
 
@@ -33,7 +42,6 @@ div.card {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.112);
   background-color: rgba(255, 255, 255, 0.892);
 }
-
 .modal {
   position: fixed;
   width: 30rem;
@@ -49,6 +57,15 @@ div.card-header {
   padding: 5px 10px;
   background: #f6f8fa;
   border-radius: 10px 10px 0px 0px;
+  box-sizing: border-box;
+}
+div.card-footer {
+  border-top: solid 1px rgb(208, 215, 222);
+  margin: 0;
+  padding: 0;
+  /* padding: 5px 10px; */
+  background: #f6f8fa;
+  border-radius: 0px 0px 10px 10px;
   box-sizing: border-box;
 }
 

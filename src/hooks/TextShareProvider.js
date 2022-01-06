@@ -1,20 +1,19 @@
-import ShareProvider from "./ShareProvider";
+import helper from "./ShareHelper";
 import axios from "axios";
+
 const mode = process.env.NODE_ENV;
 const key = process.env.VUE_APP_TEXTBELT_KEY;
 const test = (mode === "test") | (mode === "development");
 
-export default class TextShareProvider extends ShareProvider {
-  constructor() {
-    super();
-  }
+export default {
+  shareToMessage: "Phone Number",
+  share: async function (sharedTo, items) {
+    let nr = sharedTo;
+    if (!nr.startsWith("+")) {
+      nr = `+1${nr}`;
+    }
 
-  getSharedToFormComponent() {
-    return null;
-  }
-
-  async share(sharedTo, items) {
-    const message = this.formatMessage(items);
+    const message = helper.formatMessage(items);
     let justTest =
       test & !(sharedTo.includes("7037270058") || sharedTo.includes("abc"));
     try {
@@ -27,10 +26,13 @@ export default class TextShareProvider extends ShareProvider {
       if (result.success) {
         return Promise.resolve(result);
       } else {
-        return Promise.reject(result.error);
+        const msg = result.error.includes("Invalid phone number")
+          ? "Please enter a valid phone number"
+          : result.error;
+        return Promise.reject(msg);
       }
     } catch (error) {
       return Promise.reject(error);
     }
-  }
-}
+  },
+};
