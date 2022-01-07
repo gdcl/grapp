@@ -25,8 +25,8 @@ async function invoke(apiPromise, mutation, context, optional_payload) {
       const payload = optional_payload
         ? optional_payload
         : "data" in items
-          ? items["data"]
-          : items;
+        ? items["data"]
+        : items;
       await context.commit(mutation, payload);
       if (context.getters.apiErrors) {
         context.commit("clearApiError");
@@ -55,6 +55,28 @@ async function addItemHelper(context, { action, payload }) {
 }
 
 export default {
+  async login(context, payload) {
+    //payload is email, password object
+    try {
+      await directus.auth.login(payload);
+      context.commit("login", payload.email);
+    } catch (error) {
+      console.log(error);
+      context.commit("logout");
+      handleError(error, context);
+    }
+  },
+
+  async logout(context) {
+    //payload is email, password object
+    try {
+      await directus.auth.logout();
+      context.commit("logout");
+    } catch (error) {
+      handleError(error, context);
+    }
+  },
+
   async getItems(context) {
     try {
       const apiCall = gritems.readMany({

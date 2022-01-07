@@ -63,17 +63,14 @@ export default {
     console.log(payload);
   },
 
-  login(state, _) {
+  login(state, payload) {
     state.isLoggedIn = true;
-    console.log(_);
+    state.user = payload;
   },
 
   logout(state, _) {
     state.isLoggedIn = false;
+    state.user = "";
     console.log(_);
-  },
-
-  setUser(state, payload) {
-    state.user = payload;
   },
 };
