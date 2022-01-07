@@ -103,35 +103,66 @@ describe("store mutations for profiles", () => {
     //  expect(store.state).toHaveProperty("profiles");
     expect(store.state.profiles).not.toContainEqual(testProfileCreate);
   });
+});
 
-  describe("store getters for profiles", () => {
-    beforeEach(() => {
-      store = createStore(storeConfig);
-      testProfileList.forEach((profile) =>
-        store.commit("createProfile", profile)
-      );
-      store.commit("createProfile", testProfileCreate);
-    });
-
-    it("can get an individual profile with getProfileByName", () => {
-      testProfileList.forEach((profile) =>
-        expect(store.getters.getProfileByName(profile.name)).toEqual(profile.id)
-      );
-    });
-
-    it("can get the shopping list profile by name", () => {
-      expect(store.getters.getProfileByName("current")).toEqual(10);
-    });
+describe("store getters for profiles", () => {
+  beforeEach(() => {
+    store = createStore(storeConfig);
+    testProfileList.forEach((profile) =>
+      store.commit("createProfile", profile)
+    );
+    store.commit("createProfile", testProfileCreate);
   });
 
-  describe("store actions", () => {
-    beforeEach(() => {
-      store = createStore(storeConfig);
-    });
+  it("can get an individual profile with getProfileByName", () => {
+    testProfileList.forEach((profile) =>
+      expect(store.getters.getProfileByName(profile.name)).toEqual(profile.id)
+    );
+  });
 
-    it("can get items from directus API  and update datastore", () => {
-      store.dispatch("getItems");
-      expect(store.state.items).not.toBeNull;
+  it("can get the shopping list profile by name", () => {
+    expect(store.getters.getProfileByName("current")).toEqual(10);
+  });
+});
+
+describe("store actions", () => {
+  beforeEach(() => {
+    store = createStore(storeConfig);
+  });
+
+  it("can get items from directus API  and update datastore", async () => {
+    await store.dispatch("getItems");
+    expect(store.state.items).not.toEqual({});
+    const sNrs = ["1", "2", "3", "4", "5"];
+    sNrs.forEach((item) => expect(store.state.items).toHaveProperty(item));
+  });
+
+  it("can authenticate successfully with correct credentials", async () => {
+    await store.dispatch("login", {
+      email: "testuser@test.org",
+      password: "QaZVfRYhN@22",
     });
+    expect(store.state.isLoggedIn).toEqual(true);
+    expect(store.state.user).toEqual("testuser@test.org");
+  });
+
+  it("will not authenticate and provide an error when provided with incorrect credentials", async () => {
+    await store.dispatch("login", {
+      email: "nope@nope.org",
+      password: "yeahnope",
+    });
+    expect(store.state.isLoggedIn).toEqual(false);
+    expect(store.state.apiErrorMessages).not.toEqual([]);
+    expect(store.state.user).toEqual("");
+  });
+
+  it("can log out successfully after login", async () => {
+    await store.dispatch("login", {
+      email: "testuser@test.org",
+      password: "QaZVfRYhN@22",
+    });
+    await store.dispatch("logout");
+    expect(store.state.isLoggedIn).toEqual(false);
+    expect(store.state.user).toEqual("");
   });
 });
