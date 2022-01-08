@@ -1,47 +1,19 @@
 <template>
-  <!--  <img class="icon" src="./assets/groceries.png"> -->
-  <div class="app-header" v-if="initializing">Loading your data</div>
-  <div v-else>
-    <h1 class="app">{{ appName }}</h1>
-    <div class="list-container">
-      <gritem-list listName="Selected Profile" :profile="getActiveProfileId" />
-      <gritem-list listName="Shopping List" :profile="shoppingListProfile" />
-    </div>
-    <ul v-if="apiErrors">
-      Something went wrong.
-      <li v-for="err in apiErrorMessages" :key="err.index">
-        <span>{{ err }}</span>
-      </li>
-    </ul>
+  <div id="nav">
+    <router-link to="/">Manage Shopping List</router-link>
+    <router-link v-if="!isLoggedIn" to="/login">Login</router-link>
   </div>
+  <router-view />
 </template>
 
 <script>
-import GritemList from "./components/GritemList.vue";
-import { mapState, mapGetters, mapActions } from "vuex";
-
+import { mapGetters } from "vuex";
 export default {
-  name: "Grapp",
-  components: {
-    GritemList,
-  },
   computed: {
-    ...mapState(["initializing", "apiErrorMessages"]),
-    ...mapGetters(["shoppingListProfile", "apiErrors", "getActiveProfileId"]),
-    appName() {
-      return process.env.VUE_APP_NAME;
-    },
-  },
-  methods: {
-    ...mapActions(["bootStrapStore"]),
-  },
-
-  async beforeMount() {
-    await this.bootStrapStore();
-  },
-};
+    ...mapGetters(['isLoggedIn'])
+  }
+}
 </script>
-
 <style>
 * {
   margin: 0px 0px;
@@ -56,8 +28,52 @@ export default {
   --card-body-color: rgba(255, 255, 255, 0.892);
 }
 
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
 #app {
-  /* font-family: Helvetica, Arial, sans-serif;  */
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: left;
+  color: #2c3e50;
+}
+
+#nav {
+  padding: 30px;
+  width: 100vw;
+  font-size: 1.2rem;
+  margin: 0 0 1.5rem 0;
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--h1-color);
+  background-color: var(--header-bg-color);
+}
+
+#nav a {
+  font-weight: bold;
+  /* color: #2c3e50; */
+  font-size: 1.2rem;
+  margin: 0 0 1.5rem 0;
+  padding: 1rem 1rem 1rem 1rem;
+  color: black;
+  background-color: var(--header-bg-color);
+}
+
+#nav a:hover {
+  color: var(--link-hover-color);
+}
+
+#nav a.router-link-exact-active {
+  color: var(--h1-color);
+}
+
+/* 
+#app {
   font-family: Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -66,17 +82,11 @@ export default {
   background-color: rgb(255, 255, 255);
   padding: 0.1rem 0;
   height: 100%;
-}
+} */
 
 img.icon {
   display: block;
   margin: auto;
-}
-html,
-body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
 }
 
 div {
@@ -85,19 +95,6 @@ div {
 
 .app-header {
   display: block;
-}
-
-h1.app {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  font-size: 1.2rem;
-  margin: 0 0 1.5rem 0;
-  padding: 1rem 1rem 1.5rem 1rem;
-  border-bottom: 1px solid var(--border-color);
-  color: var(--h1-color);
-  background-color: var(--header-bg-color);
 }
 
 h1 {

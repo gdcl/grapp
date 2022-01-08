@@ -1,4 +1,12 @@
 export default {
+  isLoggedIn(state) {
+    return state.isLoggedIn;
+  },
+
+  getUser(state) {
+    return state.user;
+  },
+
   getItem(state) {
     return (id) => {
       return state.items[id];
@@ -19,9 +27,9 @@ export default {
     return state.activeProfileId;
   },
 
- getProfilesStrict(state) {
-   return state.profiles.filter((profile)=> profile.name !== "current") 
- },
+  getProfilesStrict(state) {
+    return state.profiles.filter((profile) => profile.name !== "current");
+  },
 
   getProfileByName(state) {
     return (name) => {
