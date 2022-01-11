@@ -1,16 +1,27 @@
 <template>
   <div id="nav">
-    <router-link to="/">Manage Shopping List</router-link>
-    <router-link v-if="!isLoggedIn" to="/login">Login</router-link>
+    <router-link v-if="isLoggedIn" to="/">Shopping List</router-link>
+    <button v-if="isLoggedIn" class="nav" @click="doLogout">Logout</button>
+    <span v-if="isLoggedIn">{{ getUser() }}</span>
+    <router-link v-else to="/login">Login</router-link>
   </div>
   <router-view />
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
+//import router from "./router";
 export default {
   computed: {
-    ...mapGetters(['isLoggedIn'])
+    ...mapGetters(['isLoggedIn']),
+  },
+  methods: {
+    ...mapActions(['logout']),
+    ...mapGetters(['getUser']),
+    async doLogout() {
+      await this.logout();
+      this.$router.push('/login');
+    }
   }
 }
 </script>
@@ -58,10 +69,10 @@ body {
   font-weight: bold;
   /* color: #2c3e50; */
   font-size: 1.2rem;
-  margin: 0 0 1.5rem 0;
-  padding: 1rem 1rem 1rem 1rem;
+  margin: 0;
+  padding: 0 1rem;
   color: black;
-  background-color: var(--header-bg-color);
+  /* background-color: var(--header-bg-color); */
 }
 
 #nav a:hover {
@@ -150,6 +161,24 @@ button.lean {
   border: none;
   padding: 0;
   transition: 250ms;
+}
+
+button.nav {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  /* color: #2c3e50; */
+  margin: 0;
+  padding: 0 1rem;
+  font-size: 1.2rem;
+  color: black;
+  background-color: transparent;
+  vertical-align: inherit;
+  text-decoration: underline;
+  border-style: none;
+}
+
+button.nav:hover {
+  color: var(--link-hover-color);
 }
 
 svg {
