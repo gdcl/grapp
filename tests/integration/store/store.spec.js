@@ -208,6 +208,12 @@ describe("store actions - authenticated crud on profiles and items", () => {
 describe("store actions - security, authentication", () => {
   beforeEach(async () => {
     store = createStore(storeConfig);
+    await store.dispatch("logout");
+  });
+
+  it("can log out", () => {
+    expect(store.state.items).toEqual({});
+    expect(store.getters.isLoggedIn).toEqual(false);
   });
 
   it("will fail to get items and log an exception if unauthenticated", async () => {
