@@ -4,7 +4,11 @@ export default {
   },
 
   getUser(state) {
-    return state.user;
+    return state.user.email;
+  },
+
+  getUserId(state) {
+    return state.user.id;
   },
 
   getItem(state) {

@@ -59,9 +59,9 @@ export default {
     //payload is email, password object
     try {
       await directus.auth.login(payload);
-      context.commit("login", payload.email);
+      const me = await directus.users.me.read();
+      context.commit("login", me);
     } catch (error) {
-      console.log(error);
       context.commit("logout");
       handleError(error, context);
     }
@@ -80,7 +80,7 @@ export default {
   async getItems(context) {
     try {
       const apiCall = gritems.readMany({
-        fields: ["id", "name", "quantity", "unit", "profile"],
+        fields: ["id", "name", "quantity", "unit", "profile", "user"],
       });
       const mutation = "createItems";
 
@@ -92,6 +92,7 @@ export default {
 
   async createItem(context, payload) {
     try {
+      payload = { ...payload, user: context.getters.getUserId };
       const apiCall = gritems.createOne(payload);
       const mutation = "createItem";
 
@@ -172,7 +173,11 @@ export default {
 
   async createProfile(context, payload) {
     try {
-      const result = await profile.createOne(payload);
+      const newProfile = {
+        name: payload,
+        user: context.getters.getUserId,
+      };
+      const result = await profile.createOne(newProfile);
       if (result && "errors" in result) {
         await handleError(result, context);
       } else {
@@ -194,7 +199,6 @@ export default {
     ]);
     const strictProfiles = context.getters.getProfilesStrict;
     const firstProfileId = strictProfiles.length > 0 ? strictProfiles[0].id : 0;
-    console.log(firstProfileId);
     await context.commit("setActiveProfileId", firstProfileId);
     await context.commit("clearInitializing");
   },

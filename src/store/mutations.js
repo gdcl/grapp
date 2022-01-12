@@ -70,7 +70,7 @@ export default {
 
   logout(state, _) {
     state.isLoggedIn = false;
-    state.user = "";
+    state.user = {};
     console.log(_);
   },
 };

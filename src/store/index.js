@@ -11,7 +11,7 @@ export const state = () => {
     initializing: true,
     apiErrorMessages: [],
     isLoggedIn: false,
-    user: "guy.duchatelet",
+    user: {},
   };
 };
 

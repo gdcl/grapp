@@ -1,23 +1,30 @@
 <template>
   <BaseCard :modal="false">
     <template #header>
-      <h1>Login</h1>
+      <h1>Please Login</h1>
     </template>
     <div class="share-form">
-      <form v-if="formState === 'init' || error" @submit.prevent="doLogin">
+      <form @submit.prevent="doLogin">
         <div class="formaction">
-          <label>
-            Enter Email
-            <input type="email" class="errorClass" v-model="email" />
-          </label>
-        </div>
-        <div class="formaction">
-          <label>
-            Enter Password
-            <input type="password" class="errorClass" v-model="password" />
-          </label>
-        </div>
-        <div class="formaction">
+          <div class="forminput">
+            <input
+              type="email"
+              placeholder="Email address"
+              name="email"
+              :class="errorClass"
+              v-model="email"
+            />
+          </div>
+          <div class="forminput">
+            <input
+              type="password"
+              placeholder="Password"
+              name="password"
+              autocomplete="on"
+              :class="errorClass"
+              v-model="password"
+            />
+          </div>
           <button>Login</button>
         </div>
       </form>
@@ -34,19 +41,6 @@
             d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"
           />
         </svg>
-        <svg
-          v-else
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          width="48px"
-          height="48px"
-        >
-          <path d="M0 0h24v24H0z" fill="none" />
-          <path
-            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
-          />
-        </svg>
-
         <blockquote v-html="feedback" />
       </div>
     </div>
@@ -72,12 +66,10 @@ export default {
     feedbackClass() {
       return this.error ? "feedback error" : "feedback";
     }
-
-
-
   },
   methods: {
     ...mapActions(["login"]),
+
     async doLogin() {
       await this.login({ email: this.email, password: this.password })
       if (this.isLoggedIn) {
@@ -90,13 +82,14 @@ export default {
     },
 
     resetForm() {
-      this.email = "",
-        this.password = "",
-        this.formState = "init",
-        this.feedback = ""
-      this.error = false
+      this.email = "";
+      this.password = "";
+      this.formState = "init";
+      this.feedback = "";
+      this.error = false;
     }
-  }
+  },
+
 } 
 </script>
 
@@ -105,8 +98,8 @@ h1 {
   padding: 0.4rem;
 }
 .share-form {
-  margin: 0.5rem;
-  padding: 0.5rem;
+  margin: 0.3rem;
+  padding: 0.4rem;
 }
 
 p {
@@ -114,14 +107,24 @@ p {
 }
 
 .formaction {
-  display: flex;
-  align-items: center;
+  width: 100%;
+  margin: auto;
 }
 
-input.forminput {
-  margin-left: 0;
+.forminput {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0.1rem auto;
+  padding: 0.3rem;
 }
 
+button {
+  margin: 0.2rem;
+  /* padding: 0.2rem; */
+}
+.forminput input {
+  width: 100%;
+}
 input.error {
   margin-left: 0;
   background-color: rgba(244, 190, 190, 0.4);
