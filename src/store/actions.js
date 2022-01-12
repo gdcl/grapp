@@ -86,7 +86,7 @@ export default {
 
       await invoke(apiCall, mutation, context);
     } catch (err) {
-      handleError(err);
+      handleError(err, context);
     }
   },
 
@@ -98,7 +98,7 @@ export default {
 
       await invoke(apiCall, mutation, context);
     } catch (err) {
-      handleError(err);
+      handleError(err, context);
     }
   },
 
@@ -121,7 +121,7 @@ export default {
 
       await invoke(apiCall, mutation, context);
     } catch (err) {
-      handleError(err);
+      handleError(err, context);
     }
   },
 
@@ -163,7 +163,7 @@ export default {
       const mutation = "createProfiles";
       await invoke(apiCall, mutation, context);
     } catch (err) {
-      handleError(err);
+      handleError(err, context);
     }
   },
 
@@ -188,7 +188,7 @@ export default {
         }
       }
     } catch (err) {
-      handleError(err);
+      handleError(err, context);
     }
   },
 
