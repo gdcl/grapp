@@ -1,9 +1,11 @@
 <template>
   <div id="nav">
-    <router-link v-if="isLoggedIn" to="/">Shopping List</router-link>
-    <button v-if="isLoggedIn" class="nav" @click="doLogout">Logout</button>
-    <span v-if="isLoggedIn">{{ getUser() }}</span>
-    <router-link v-else to="/login">Login</router-link>
+    <div id="nav-menu">
+      <router-link v-if="isLoggedIn" to="/">Shopping List</router-link>
+      <button v-if="isLoggedIn" class="nav" @click="doLogout">Logout</button>
+      <router-link v-else to="/login">Login</router-link>
+    </div>
+    <div id="loggedin" v-if="isLoggedIn">{{ getUser() }}</div>
   </div>
   <router-view />
 </template>
@@ -55,34 +57,40 @@ body {
 }
 
 #nav {
+  display: flex;
+  justify-content: space-between;
   padding: 30px;
-  width: 100vw;
+  width: 100%;
   font-size: 1.2rem;
   margin: 0 0 1.5rem 0;
   padding: 1rem;
   border-bottom: 1px solid var(--border-color);
-  color: var(--h1-color);
   background-color: var(--header-bg-color);
 }
 
-#nav a {
-  font-weight: bold;
-  /* color: #2c3e50; */
+#nav-menu {
   font-size: 1.2rem;
-  margin: 0;
-  padding: 0 1rem;
-  color: black;
-  /* background-color: var(--header-bg-color); */
-}
-
-#nav a:hover {
-  color: var(--link-hover-color);
-}
-
-#nav a.router-link-exact-active {
   color: var(--h1-color);
 }
 
+#nav-menu a {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin: 0;
+  padding: 0 1rem;
+}
+
+#nav-menu a:hover {
+  color: var(--link-hover-color);
+}
+
+#nav-menu a.router-link-exact-active {
+  color: var(--h1-color);
+}
+
+#loggedin {
+  font-size: 0.8rem;
+}
 /* 
 #app {
   font-family: Arial, sans-serif;
