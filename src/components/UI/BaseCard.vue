@@ -1,5 +1,5 @@
 <template>
-  <div :class="`card${modal ? ' modal' : ''}`">
+  <div :class="`card${modal ? ' modal' : ' inpage'}`">
     <div class="card-header">
       <slot name="header" />
     </div>
@@ -41,6 +41,11 @@ div.card {
   border: 1px solid rgb(208, 215, 222);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.112);
   background-color: rgba(255, 255, 255, 0.892);
+  margin: 1rem auto;
+}
+
+.inpage {
+  width: 22rem;
 }
 .modal {
   position: fixed;

@@ -25,8 +25,8 @@ async function invoke(apiPromise, mutation, context, optional_payload) {
       const payload = optional_payload
         ? optional_payload
         : "data" in items
-          ? items["data"]
-          : items;
+        ? items["data"]
+        : items;
       await context.commit(mutation, payload);
       if (context.getters.apiErrors) {
         context.commit("clearApiError");
@@ -55,27 +55,50 @@ async function addItemHelper(context, { action, payload }) {
 }
 
 export default {
+  async login(context, payload) {
+    //payload is email, password object
+    try {
+      await directus.auth.login(payload);
+      const me = await directus.users.me.read();
+      context.commit("login", me);
+    } catch (error) {
+      context.commit("logout");
+      handleError(error, context);
+    }
+  },
+
+  async logout(context) {
+    //payload is email, password object
+    try {
+      await directus.auth.logout();
+      context.commit("logout");
+    } catch (error) {
+      handleError(error, context);
+    }
+  },
+
   async getItems(context) {
     try {
       const apiCall = gritems.readMany({
-        fields: ["id", "name", "quantity", "unit", "profile"],
+        fields: ["id", "name", "quantity", "unit", "profile", "user"],
       });
       const mutation = "createItems";
 
       await invoke(apiCall, mutation, context);
     } catch (err) {
-      handleError(err);
+      handleError(err, context);
     }
   },
 
   async createItem(context, payload) {
     try {
+      payload = { ...payload, user: context.getters.getUserId };
       const apiCall = gritems.createOne(payload);
       const mutation = "createItem";
 
       await invoke(apiCall, mutation, context);
     } catch (err) {
-      handleError(err);
+      handleError(err, context);
     }
   },
 
@@ -98,7 +121,7 @@ export default {
 
       await invoke(apiCall, mutation, context);
     } catch (err) {
-      handleError(err);
+      handleError(err, context);
     }
   },
 
@@ -140,7 +163,7 @@ export default {
       const mutation = "createProfiles";
       await invoke(apiCall, mutation, context);
     } catch (err) {
-      handleError(err);
+      handleError(err, context);
     }
   },
 
@@ -150,7 +173,11 @@ export default {
 
   async createProfile(context, payload) {
     try {
-      const result = await profile.createOne(payload);
+      const newProfile = {
+        name: payload,
+        user: context.getters.getUserId,
+      };
+      const result = await profile.createOne(newProfile);
       if (result && "errors" in result) {
         await handleError(result, context);
       } else {
@@ -161,7 +188,7 @@ export default {
         }
       }
     } catch (err) {
-      handleError(err);
+      handleError(err, context);
     }
   },
 
@@ -172,7 +199,6 @@ export default {
     ]);
     const strictProfiles = context.getters.getProfilesStrict;
     const firstProfileId = strictProfiles.length > 0 ? strictProfiles[0].id : 0;
-    console.log(firstProfileId);
     await context.commit("setActiveProfileId", firstProfileId);
     await context.commit("clearInitializing");
   },

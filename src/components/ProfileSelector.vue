@@ -58,7 +58,7 @@ export default {
     },
 
     createNewProfile() {
-      this.createProfile({ name: this.newProfile, user_id: 1 });
+      this.createProfile(this.newProfile);
       this.createNew = false;
     },
   },
