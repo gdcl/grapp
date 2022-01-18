@@ -5,9 +5,16 @@ import BaseDialog from "./components/UI/BaseDialog.vue";
 import store from "./store/index.js";
 import router from './router'
 
+store.dispatch('checkAuth').then(bootstrapApp);
+
+function bootstrapApp() {
 createApp(App)
 .use(router)
 .use(store)
 .component("BaseCard", BaseCard)
 .component("BaseDialog", BaseDialog)
 .mount("#app");
+}
+
+
+

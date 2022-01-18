@@ -37,12 +37,19 @@ export default {
 
   getProfileByName(state) {
     return (name) => {
-      return state.profiles.filter((profile) => profile.name === name)[0].id;
+      const profile = state.profiles.filter(
+        (profile) => profile.name === name
+      )[0];
+      return profile ? profile.id : 0;
     };
   },
 
   shoppingListProfile(state, getters) {
     return getters.getProfileByName("current");
+  },
+
+  initalListProfile(state, getters) {
+    return getters.getProfileByName("Initial");
   },
 
   shoppingListItems(state, getters) {
