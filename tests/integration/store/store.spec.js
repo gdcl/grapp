@@ -1,6 +1,7 @@
 //import Vuex from "vuex";
 import { createStore } from "vuex";
 import { storeConfig } from "../../../src/store/index.js";
+import { Directus } from "@directus/sdk";
 
 let store;
 
@@ -244,5 +245,54 @@ describe("store actions - security, authentication", () => {
     const created = items.find((i) => i.name === "testitem");
     expect(created).toBeUndefined();
     expect(store.state.apiErrorMessages).not.toEqual([]);
+  });
+
+  describe("store actions - user management", () => {
+    beforeEach(async () => {
+      const directus = new Directus(process.env.VUE_APP_DIRECTUS_API);
+      await directus.auth.login({
+        email: "admin@grapp.org",
+        password: "QaZVfRYhN@22",
+      });
+      const testuser = await directus.users.readMany({
+        filter: { email: { _eq: "first.last@test.com" } },
+        fields: ["id"],
+      });
+      if (testuser) {
+        const userId = testuser.data[0].id;
+        await directus.users.deleteOne(userId);
+      }
+      await directus.auth.logout();
+      store = createStore(storeConfig);
+      await store.dispatch("logout");
+    });
+
+    it("can register a new user successfully once, but not twice", async () => {
+      const result = await store.dispatch("createUser", {
+        first: "TestFirst",
+        last: "TestLast",
+        email: "first.last@test.com",
+        password: "75069Texas",
+      });
+
+      expect(result).toEqual("first.last@test.com");
+      await store.dispatch("login", {
+        email: "first.last@test.com",
+        password: "75069Texas",
+      });
+      expect(store.state.isLoggedIn).toEqual(true);
+      expect(store.state.user.email).toEqual("first.last@test.com");
+
+      await store.logout;
+      const result2 = store.dispatch("createUser", {
+        first: "TestFirst",
+        last: "TestLast",
+        email: "first.last@test.com",
+        password: "75069Texas",
+      });
+      expect(result2).rejects.toThrow(
+        "his email address is already registered."
+      );
+    });
   });
 });
