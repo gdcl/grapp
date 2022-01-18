@@ -7,10 +7,10 @@ node_modules
 # local env files
 .env.local
 .env.*.local
+backend/directus/.env*
 
 # dev and test db
 backend/db/*.db
-backend/directus/.env-research
 
 # Log files
 npm-debug.log*
