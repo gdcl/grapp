@@ -9,7 +9,6 @@ async function handleError(err, context) {
   let errorMessages = [];
   if (err instanceof Error) {
     errorMessages.push(err.toString());
-    errorMessages.push(err.stack);
   } else {
     errorMessages = err["errors"];
   }
@@ -55,6 +54,16 @@ async function addItemHelper(context, { action, payload }) {
 }
 
 export default {
+  async checkAuth(context) {
+    try {
+      const me = await directus.users.me.read();
+      context.commit("login", me);
+    } catch (error) {
+      context.commit("logout");
+      handleError(error, context);
+    }
+  },
+
   async login(context, payload) {
     //payload is email, password object
     try {
@@ -74,6 +83,25 @@ export default {
       context.commit("logout");
     } catch (error) {
       handleError(error, context);
+    }
+  },
+
+  async createUser(context, payload) {
+    try {
+      const roles = await directus.roles.readMany({
+        filter: { name: { _eq: "AppUser" } },
+        fields: ["id"],
+      });
+      const roleId = roles.data[0].id;
+      payload = { ...payload, role: roleId };
+      const user = await directus.users.createOne(payload);
+      return Promise.resolve(user.email);
+    } catch (error) {
+      if (error.toString().includes('"email" has to be unique.')) {
+        return Promise.reject(`This email address is already registered.`);
+      } else {
+        return Promise.reject(`This user could not be registered [${error}]`);
+      }
     }
   },
 
@@ -192,11 +220,27 @@ export default {
     }
   },
 
+  async initializeUserProfiles(context, payload) {
+    try {
+      return Promise.resolve(payload.email);
+    } catch (error) {
+      return Promise.reject(`This user could not be registered. ${error}`);
+    }
+  },
+
   async bootStrapStore(context) {
     await Promise.all([
       context.dispatch("getItems"),
       context.dispatch("getProfiles"),
     ]);
+
+    if (!context.getters.shoppingListProfile) {
+      await Promise.all([
+        context.dispatch("createProfile", "current"),
+        context.dispatch("createProfile", "Initial"),
+      ]);
+    }
+
     const strictProfiles = context.getters.getProfilesStrict;
     const firstProfileId = strictProfiles.length > 0 ? strictProfiles[0].id : 0;
     await context.commit("setActiveProfileId", firstProfileId);

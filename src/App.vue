@@ -18,7 +18,7 @@ export default {
     ...mapGetters(['isLoggedIn']),
   },
   methods: {
-    ...mapActions(['logout']),
+    ...mapActions(['logout', 'checkAuth']),
     ...mapGetters(['getUser']),
     async doLogout() {
       await this.logout();
@@ -27,6 +27,7 @@ export default {
   }
 }
 </script>
+
 <style>
 * {
   margin: 0px 0px;

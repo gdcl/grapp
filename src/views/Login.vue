@@ -4,30 +4,29 @@
       <h1>Please Login</h1>
     </template>
     <div class="share-form">
-      <form @submit.prevent="doLogin">
-        <div class="formaction">
-          <div class="forminput">
-            <input
-              type="email"
-              placeholder="Email address"
-              name="email"
-              :class="errorClass"
-              v-model="email"
-            />
-          </div>
-          <div class="forminput">
-            <input
-              type="password"
-              placeholder="Password"
-              name="password"
-              autocomplete="on"
-              :class="errorClass"
-              v-model="password"
-            />
-          </div>
-          <button>Login</button>
+      <div class="formaction">
+        <div class="forminput">
+          <input
+            type="email"
+            placeholder="Email address"
+            name="email"
+            :class="errorClass"
+            v-model="email"
+          />
         </div>
-      </form>
+        <div class="forminput">
+          <input
+            type="password"
+            placeholder="Password"
+            name="password"
+            autocomplete="on"
+            :class="errorClass"
+            v-model="password"
+          />
+        </div>
+        <button @click="doLogin">Login</button>
+        <button @click="register">Register</button>
+      </div>
       <div :class="feedbackClass" v-if="feedback" class="feedback">
         <svg
           v-if="error"
@@ -68,7 +67,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["login"]),
+    ...mapActions(["login", "createUser"]),
 
     async doLogin() {
       await this.login({ email: this.email, password: this.password })
@@ -80,6 +79,20 @@ export default {
         this.feedback = "E-mail / Password incorrect, please try again"
       }
     },
+
+    async register() {
+      try {
+        this.error = false;
+        await this.createUser({ email: this.email, password: this.password })
+        // this.resetForm();
+        this.feedback = "Registration was successfull, you can now log in with this user";
+      }
+      catch (Error) {
+        this.error = true;
+        this.feedback = Error.toString();
+      }
+    },
+
 
     resetForm() {
       this.email = "";
