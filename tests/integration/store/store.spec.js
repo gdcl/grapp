@@ -56,7 +56,7 @@ describe("store mutations for items", () => {
 
   it("can delete an item with deleteItem", () => {
     store.commit("deleteItem", testItemCreate.id);
-    //  expect(sotre.state).toHaveProperty("items");
+    //  expect(store.state).toHaveProperty("items");
     expect(store.state.items).not.toHaveProperty(testItemCreate.id.toString());
   });
 });
